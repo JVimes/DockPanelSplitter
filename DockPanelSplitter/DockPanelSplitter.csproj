@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
+    <RootNamespace>System.Windows.Controls</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>0.0.0</Version>
+    <Authors>John Burak</Authors>
+    <Description>A DockPanel splitter for WPF.</Description>
+    <PackageLicenseExpression>MIT-0</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DockPanelSplitter\DockPanelSplitter.csproj" />
+  </ItemGroup>
+
+</Project>
