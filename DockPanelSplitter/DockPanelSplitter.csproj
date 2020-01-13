@@ -1,13 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <UseWPF>true</UseWPF>
     <RootNamespace>System.Windows.Controls</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>0.0.0</Version>
     <Authors>John Burak</Authors>
-    <Description>A DockPanel splitter for WPF.</Description>
+    <Description>Like WPF's GridSplitter, but for DockPanel instead of Grid.</Description>
     <PackageLicenseExpression>MIT-0</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageProjectUrl>https://github.com/JVimes/DockPanelSplitter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JVimes/DockPanelSplitter.git</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
 </Project>

@@ -3,10 +3,95 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dpsplit="clr-namespace:System.Windows.Controls;assembly=DockPanelSplitter"
         xmlns:local="clr-namespace:DemoApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="DockPanelSplitter demo" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Border">
+            <Setter Property="Padding" Value="5" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </Window.Resources>
+    <UniformGrid Rows="1">
+        <GroupBox Header="DockPanel">
+            <DockPanel>
+                <Border Background="LightBlue" Width="75" DockPanel.Dock="Left">
+                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}"/>
+                </Border>
+                <dpsplit:DockPanelSplitter DockPanel.Dock="Left"/>
 
-    </Grid>
+                <Border Background="PaleGoldenrod"  Width="150" DockPanel.Dock="Right">
+                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}"/>
+                </Border>
+                <dpsplit:DockPanelSplitter DockPanel.Dock="Right"/>
+
+                <Border Background="LightGreen" Height="75" DockPanel.Dock="Top">
+                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
+                </Border>
+                <dpsplit:DockPanelSplitter DockPanel.Dock="Top"/>
+
+                <Border Background="IndianRed" Height="150" MinHeight="50" DockPanel.Dock="Bottom">
+                    <StackPanel>
+                        <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
+                        <TextBlock Text="{Binding MinHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=MinHeight: {0}}"
+                                   Opacity="0.5"/>
+                    </StackPanel>
+                </Border>
+                <dpsplit:DockPanelSplitter DockPanel.Dock="Bottom"/>
+
+                <Border Background="DarkGray" DockPanel.Dock="Bottom">
+                    <TextBlock Opacity="1" Text="Double-click a splitter to reset its position" TextWrapping="Wrap"/>
+                </Border>
+            </DockPanel>
+        </GroupBox>
+        <GroupBox Header="Grid for comparison">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="GridSplitter" BasedOn="{StaticResource {x:Type GridSplitter}}">
+                        <Setter Property="MinWidth" Value="5"/>
+                        <Setter Property="MinHeight" Value="5"/>
+                        <Setter Property="Background" Value="White"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="155"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="155" MinHeight="50"/>
+                </Grid.RowDefinitions>
+
+                <Border Background="LightBlue" Margin="0,0,5,0" Grid.RowSpan="3">
+                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}"/>
+                </Border>
+                <GridSplitter HorizontalAlignment="Right" Grid.RowSpan="3"/>
+
+                <Border Background="PaleGoldenrod" Margin="5,0,0,0" Grid.Column="2" Grid.RowSpan="3">
+                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}"/>
+                </Border>
+                <GridSplitter HorizontalAlignment="Left" Grid.Column="2" Grid.RowSpan="3"/>
+
+                <Border Background="LightGreen" Margin="0,0,0,5" Grid.Column="1">
+                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
+                </Border>
+                <GridSplitter Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+
+                <Border Background="IndianRed" Margin="0,5,0,0" Grid.Column="1" Grid.Row="2">
+                    <StackPanel>
+                        <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
+                        <TextBlock Text="MinHeight: 50" Opacity="0.5"/>
+                    </StackPanel>
+                </Border>
+                <GridSplitter VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"/>
+
+                <Border Background="DarkGray" Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+        </GroupBox>
+    </UniformGrid>
 </Window>
