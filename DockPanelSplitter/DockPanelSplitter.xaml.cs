@@ -24,7 +24,7 @@ namespace System.Windows.Controls
     {
         bool isHorizontal;
         bool isBottomOrRight;
-        FrameworkElement previousSibling;
+        FrameworkElement target;
         double? initialLength;
         double availableSpace;
 
@@ -49,19 +49,19 @@ namespace System.Windows.Controls
             if (!(Parent is DockPanel))
                 throw new InvalidOperationException($"{nameof(DockPanelSplitter)} must be directly in a DockPanel.");
 
-            if (GetPreviousSiblingOrDefault() == default)
+            if (GetTargetOrDefault() == default)
                 throw new InvalidOperationException($"{nameof(DockPanelSplitter)} must be directly after a FrameworkElement");
         }
 
         void OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-            => SetSiblingLength(initialLength.Value);
+            => SetTargetLength(initialLength.Value);
 
         void OnDragStarted(object sender, DragStartedEventArgs e)
         {
             isHorizontal = GetIsHorizontal(this);
             isBottomOrRight = GetIsBottomOrRight();
-            previousSibling = GetPreviousSiblingOrDefault();
-            initialLength ??= GetSiblingLength();
+            target = GetTargetOrDefault();
+            initialLength ??= GetTargetLength();
             availableSpace = GetAvailableSpace();
         }
 
@@ -70,12 +70,12 @@ namespace System.Windows.Controls
             var change = isHorizontal ? e.VerticalChange : e.HorizontalChange;
             if (isBottomOrRight) change = -change;
 
-            var siblingLength = GetSiblingLength();
-            var newSiblingLength = siblingLength + change;
-            newSiblingLength = Clamp(newSiblingLength, 0, availableSpace);
-            newSiblingLength = Math.Round(newSiblingLength);
+            var targetLength = GetTargetLength();
+            var newTargetLength = targetLength + change;
+            newTargetLength = Clamp(newTargetLength, 0, availableSpace);
+            newTargetLength = Math.Round(newTargetLength);
 
-            SetSiblingLength(newSiblingLength);
+            SetTargetLength(newTargetLength);
         }
 
         static double Clamp(double value, double min, double max)
@@ -83,20 +83,20 @@ namespace System.Windows.Controls
                value > max ? max :
                value;
 
-        FrameworkElement GetPreviousSiblingOrDefault()
+        FrameworkElement GetTargetOrDefault()
         {
-            var siblings = Panel.Children.OfType<object>();
+            var children = Panel.Children.OfType<object>();
             var splitterIndex = Panel.Children.IndexOf(this);
-            return siblings.ElementAtOrDefault(splitterIndex - 1) as FrameworkElement;
+            return children.ElementAtOrDefault(splitterIndex - 1) as FrameworkElement;
         }
 
-        void SetSiblingLength(double length)
+        void SetTargetLength(double length)
         {
-            if (isHorizontal) previousSibling.Height = length;
-            else previousSibling.Width = length;
+            if (isHorizontal) target.Height = length;
+            else target.Width = length;
         }
 
-        double GetSiblingLength() => GetLength(previousSibling);
+        double GetTargetLength() => GetLength(target);
 
         double GetLength(FrameworkElement element)
             => isHorizontal ?
@@ -128,7 +128,7 @@ namespace System.Windows.Controls
             var fixedChildren =
                 from child in Panel.Children.OfType<FrameworkElement>()
                 where GetIsHorizontal(child) == isHorizontal
-                where child != previousSibling
+                where child != target
                 where child != lastChild
                 select child;
 
