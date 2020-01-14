@@ -22,10 +22,10 @@ namespace System.Windows.Controls
     /// </summary>
     public partial class DockPanelSplitter : Thumb
     {
-        FrameworkElement previousSibling;
-        double? initialLength;
         bool isHorizontal;
         bool isBottomOrRight;
+        FrameworkElement previousSibling;
+        double? initialLength;
 
 
         /// <summary> </summary>
@@ -38,6 +38,9 @@ namespace System.Windows.Controls
             DragStarted += OnDragStarted;
             DragDelta += OnDragDelta;
         }
+
+
+        DockPanel Panel => Parent as DockPanel;
 
 
         void OnLoaded(object sender, RoutedEventArgs e)
@@ -76,9 +79,8 @@ namespace System.Windows.Controls
 
         FrameworkElement GetPreviousSiblingOrDefault()
         {
-            var parent = Parent as DockPanel;
-            var siblings = parent.Children.OfType<object>();
-            var splitterIndex = parent.Children.IndexOf(this);
+            var siblings = Panel.Children.OfType<object>();
+            var splitterIndex = Panel.Children.IndexOf(this);
             return siblings.ElementAtOrDefault(splitterIndex - 1) as FrameworkElement;
         }
 
