@@ -26,6 +26,7 @@ namespace System.Windows.Controls
         bool isBottomOrRight;
         FrameworkElement previousSibling;
         double? initialLength;
+        double availableSpace;
 
 
         /// <summary> </summary>
@@ -57,11 +58,11 @@ namespace System.Windows.Controls
 
         void OnDragStarted(object sender, DragStartedEventArgs e)
         {
-            var position = DockPanel.GetDock(this);
-            isHorizontal = GetIsHorizontal(position);
-            isBottomOrRight = position == Dock.Bottom || position == Dock.Right;
+            isHorizontal = GetIsHorizontal(this);
+            isBottomOrRight = GetIsBottomOrRight();
             previousSibling = GetPreviousSiblingOrDefault();
             initialLength ??= GetSiblingLength();
+            availableSpace = GetAvailableSpace();
         }
 
         void OnDragDelta(object sender, DragDeltaEventArgs e)
@@ -71,11 +72,16 @@ namespace System.Windows.Controls
 
             var siblingLength = GetSiblingLength();
             var newSiblingLength = siblingLength + change;
-            if (newSiblingLength < 0) newSiblingLength = 0;
+            newSiblingLength = Clamp(newSiblingLength, 0, availableSpace);
             newSiblingLength = Math.Round(newSiblingLength);
 
             SetSiblingLength(newSiblingLength);
         }
+
+        static double Clamp(double value, double min, double max)
+            => value < min ? min :
+               value > max ? max :
+               value;
 
         FrameworkElement GetPreviousSiblingOrDefault()
         {
@@ -90,13 +96,46 @@ namespace System.Windows.Controls
             else previousSibling.Width = length;
         }
 
-        double GetSiblingLength() => isHorizontal ?
-                                     previousSibling.ActualHeight :
-                                     previousSibling.ActualWidth;
+        double GetSiblingLength() => GetLength(previousSibling);
+
+        double GetLength(FrameworkElement element)
+            => isHorizontal ?
+               element.ActualHeight :
+               element.ActualWidth;
+
+        bool GetIsBottomOrRight()
+        {
+            var position = DockPanel.GetDock(this);
+            return position == Dock.Bottom || position == Dock.Right;
+        }
+
+        bool GetIsHorizontal(FrameworkElement element)
+        {
+            var position = DockPanel.GetDock(element);
+            return GetIsHorizontal(position);
+        }
 
         static bool GetIsHorizontal(Dock position)
             => position == Dock.Top || position == Dock.Bottom;
 
+        double GetAvailableSpace()
+        {
+            var lastChild =
+                Panel.LastChildFill ?
+                Panel.Children.OfType<object>().Last() as FrameworkElement :
+                null;
+
+            var fixedChildren =
+                from child in Panel.Children.OfType<FrameworkElement>()
+                where GetIsHorizontal(child) == isHorizontal
+                where child != previousSibling
+                where child != lastChild
+                select child;
+
+            var panelLength = GetLength(Panel);
+            var unavailableSpace = fixedChildren.Sum(c => GetLength(c));
+            return panelLength - unavailableSpace;
+        }
 
         internal class CursorConverter : IValueConverter
         {
