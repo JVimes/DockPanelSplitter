@@ -78,11 +78,6 @@ namespace System.Windows.Controls
             SetTargetLength(newTargetLength);
         }
 
-        static double Clamp(double value, double min, double max)
-            => value < min ? min :
-               value > max ? max :
-               value;
-
         FrameworkElement GetTargetOrDefault()
         {
             var children = Panel.Children.OfType<object>();
@@ -90,33 +85,11 @@ namespace System.Windows.Controls
             return children.ElementAtOrDefault(splitterIndex - 1) as FrameworkElement;
         }
 
-        void SetTargetLength(double length)
-        {
-            if (isHorizontal) target.Height = length;
-            else target.Width = length;
-        }
-
-        double GetTargetLength() => GetLength(target);
-
-        double GetLength(FrameworkElement element)
-            => isHorizontal ?
-               element.ActualHeight :
-               element.ActualWidth;
-
         bool GetIsBottomOrRight()
         {
             var position = DockPanel.GetDock(this);
             return position == Dock.Bottom || position == Dock.Right;
         }
-
-        bool GetIsHorizontal(FrameworkElement element)
-        {
-            var position = DockPanel.GetDock(element);
-            return GetIsHorizontal(position);
-        }
-
-        static bool GetIsHorizontal(Dock position)
-            => position == Dock.Top || position == Dock.Bottom;
 
         double GetAvailableSpace()
         {
@@ -136,6 +109,34 @@ namespace System.Windows.Controls
             var unavailableSpace = fixedChildren.Sum(c => GetLength(c));
             return panelLength - unavailableSpace;
         }
+
+        void SetTargetLength(double length)
+        {
+            if (isHorizontal) target.Height = length;
+            else target.Width = length;
+        }
+
+        double GetTargetLength() => GetLength(target);
+
+        bool GetIsHorizontal(FrameworkElement element)
+        {
+            var position = DockPanel.GetDock(element);
+            return GetIsHorizontal(position);
+        }
+
+        static bool GetIsHorizontal(Dock position)
+            => position == Dock.Top || position == Dock.Bottom;
+
+        static double Clamp(double value, double min, double max)
+            => value < min ? min :
+               value > max ? max :
+               value;
+
+        double GetLength(FrameworkElement element)
+            => isHorizontal ?
+               element.ActualHeight :
+               element.ActualWidth;
+
 
         internal class CursorConverter : IValueConverter
         {
