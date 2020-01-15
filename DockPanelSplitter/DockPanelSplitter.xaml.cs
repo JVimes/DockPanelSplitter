@@ -54,7 +54,10 @@ namespace System.Windows.Controls
         }
 
         void OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-            => SetTargetLength(initialLength.Value);
+        {
+            if (initialLength != null)
+                SetTargetLength(initialLength.Value);
+        }
 
         void OnDragStarted(object sender, DragStartedEventArgs e)
         {
