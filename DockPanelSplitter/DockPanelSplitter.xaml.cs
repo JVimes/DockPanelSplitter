@@ -121,7 +121,7 @@ namespace System.Windows.Controls
 
         double GetTargetLength() => GetLength(target);
 
-        bool GetIsHorizontal(FrameworkElement element)
+        static bool GetIsHorizontal(FrameworkElement element)
         {
             var position = DockPanel.GetDock(element);
             return GetIsHorizontal(position);
