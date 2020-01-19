@@ -12,6 +12,7 @@
     <PackageLicenseExpression>MIT-0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>true</IncludeSymbols>
     <PackageProjectUrl>https://github.com/JVimes/DockPanelSplitter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JVimes/DockPanelSplitter.git</RepositoryUrl>
   </PropertyGroup>
