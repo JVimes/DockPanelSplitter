@@ -4,17 +4,18 @@
     <TargetFrameworks>netcoreapp3.1;net462</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <UseWPF>true</UseWPF>
-    <RootNamespace>System.Windows.Controls</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.0</Version>
     <Authors>John Burak</Authors>
-    <Description>Like WPF's GridSplitter, but for DockPanel instead of Grid.</Description>
     <PackageLicenseExpression>MIT-0</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IncludeSymbols>true</IncludeSymbols>
+    <Version>0.1.0</Version>
+    <Description>Like WPF's GridSplitter, but for DockPanel instead of Grid.</Description>
+    <Copyright>Copyright © 2020 John Burak</Copyright>
     <PackageProjectUrl>https://github.com/JVimes/DockPanelSplitter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JVimes/DockPanelSplitter.git</RepositoryUrl>
+    <RootNamespace>System.Windows.Controls</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
