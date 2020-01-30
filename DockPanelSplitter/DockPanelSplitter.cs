@@ -20,7 +20,7 @@ namespace System.Windows.Controls
     ///   Like <see cref="GridSplitter"/>, but for <see cref="DockPanel"/>
     ///   instead of <see cref="Grid"/>.
     /// </summary>
-    public partial class DockPanelSplitter : Thumb
+    public class DockPanelSplitter : Thumb
     {
         bool isHorizontal;
         bool isBottomOrRight;
@@ -29,11 +29,14 @@ namespace System.Windows.Controls
         double availableSpace;
 
 
+        static DockPanelSplitter()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DockPanelSplitter), new FrameworkPropertyMetadata(typeof(DockPanelSplitter)));
+        }
+
         /// <summary> </summary>
         public DockPanelSplitter()
         {
-            InitializeComponent();
-
             Loaded += OnLoaded;
             MouseDoubleClick += OnMouseDoubleClick;
             DragStarted += OnDragStarted;
