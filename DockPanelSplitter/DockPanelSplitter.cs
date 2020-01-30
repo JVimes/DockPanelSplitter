@@ -22,9 +22,12 @@ namespace System.Windows.Controls
     /// </summary>
     public class DockPanelSplitter : Thumb
     {
+        static readonly FrameworkElement targetNullObject = new FrameworkElement();
+        static readonly DockPanel parentNullObject = new DockPanel();
+
         bool isHorizontal;
         bool isBottomOrRight;
-        FrameworkElement target;
+        FrameworkElement target = targetNullObject;
         double? initialLength;
         double availableSpace;
 
@@ -44,7 +47,7 @@ namespace System.Windows.Controls
         }
 
 
-        DockPanel Panel => Parent as DockPanel;
+        DockPanel Panel => Parent as DockPanel ?? parentNullObject;
 
 
         void OnLoaded(object sender, RoutedEventArgs e)
@@ -66,7 +69,7 @@ namespace System.Windows.Controls
         {
             isHorizontal = GetIsHorizontal(this);
             isBottomOrRight = GetIsBottomOrRight();
-            target = GetTargetOrDefault();
+            target = GetTargetOrDefault() ?? targetNullObject;
             initialLength ??= GetTargetLength();
             availableSpace = GetAvailableSpace();
         }
@@ -84,7 +87,7 @@ namespace System.Windows.Controls
             SetTargetLength(newTargetLength);
         }
 
-        FrameworkElement GetTargetOrDefault()
+        FrameworkElement? GetTargetOrDefault()
         {
             var children = Panel.Children.OfType<object>();
             var splitterIndex = Panel.Children.IndexOf(this);
