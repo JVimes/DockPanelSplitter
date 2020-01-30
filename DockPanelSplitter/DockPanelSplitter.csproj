@@ -17,6 +17,8 @@
     <RepositoryUrl>https://github.com/JVimes/DockPanelSplitter.git</RepositoryUrl>
     <Copyright>Copyright © 2020 John Burak</Copyright>
     <RootNamespace>System.Windows.Controls</RootNamespace>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +26,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
